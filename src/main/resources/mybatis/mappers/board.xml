@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="board">
+
+
+	<select id="getlist" parameterType="int" resultType="com.mysite.vo.BoardVo">
+		<![CDATA[
+		select b.no no,
+		b.title title,
+		u.name userName,
+		b.content content,
+		b.hit hit ,
+		b.reg_date regDate,
+		user_no userNo 
+		from Board b,
+		users u 
+		where b.user_no=u.no 
+		order by no desc
+		]]>
+	</select>
+	
+	<insert id="insert" parameterType= "com.mysite.vo.BoardVo">
+		<![CDATA[
+			insert into  Board values (seq_board_no.nextval,#{title},#{content},0,SYSDATE,#{userNo})
+		
+		]]>
+	</insert>
+	
+	<delete id="delete" parameterType="com.mysite.vo.BoardVo">
+		<![CDATA[
+				delete from Board where no=#{no}
+			
+			]]>
+	</delete>
+	
+	
+	<select id="selectOne" parameterType="int" resultType="com.mysite.vo.BoardVo">
+		<![CDATA[
+			select title ,content ,user_NO userNo from Board where no=#{no}
+		]]>
+		</select>
+
+	<update id="updatehit" parameterType="com.mysite.vo.BoardVo">
+	
+	<![CDATA[
+			update Board set hit=hit+1 where no=#{no}
+		]]>
+		
+	</update>
+	<update id="update" parameterType="com.mysite.vo.BoardVo">
+	
+	<![CDATA[
+			update Board set hit=#{title},content=#{content} where no=#{no}
+		]]>
+		
+	</update>
+
+</mapper>
